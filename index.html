@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simple Portfolio Site</title>
+    <link rel="stylesheet" href="./static/styles/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- header showcase -->
+        <header id="showcase" class="grid">
+            <div class="bg-image"></div>
+            <div class="content-wrap">
+                <h1>{{showcase_title}}</h1>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus aliquam distinctio impedit deleniti esse quis nobis, omnis incidunt adipisci repudiandae, libero laudantium veritatis vitae laboriosam.?
+                </p>
+                <a href="#section-b" class="btn">Read More</a>
+            </div>
+        </header>
+
+        <!-- Main Area -->
+        <main id="main">
+            <!-- Section A -->
+            <section id="section-a" class="grid">
+                <div class="content-wrap">
+                    <h2 class="content-title">Our Vision</h2>
+                    <div class="content-text">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur dignissimos recusandae vero consectetur? Vero ab quaerat magni officiis totam quo, iusto alias ea incidunt animi repudiandae, assumenda atque, dolorem distinctio possimus! Accusamus dignissimos, tenetur, veniam obcaecati quae nesciunt facilis autem assumenda reprehenderit a accusantium modi blanditiis expedita praesentium debitis sint totam asperiores porro suscipit? Explicabo aperiam, facere ullam aspernatur architecto reprehenderit esse dolore velit debitis nobis itaque corporis, sit eligendi?</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section B -->
+            <section id="section-b" class="grid">
+                <div class="content-wrap">
+                    <h2 class="content-title">Events</h2>
+                </div>
+                <ul>
+                    <li v-for="event in events">
+                        <div class="card">
+                            <img :src="event.event_img" alt="">
+                            <div class="card-content">
+                                <h3 class="card-title">{{event.event_title}}</h3>
+                                <p>{{event.event_desc}}</p>
+                                <a href="#" class="card-action">Details</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Section C -->
+            <section id="section-c" class="grid">
+                <div class="content-wrap">
+                    <h2 class="content-title">Get Involved</h2>
+                    <p>{{get_involved}}</p>
+                    <ul class="getting-involved">
+                        <li v-for="gi in get_involved_items">{{gi}}</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Section D -->
+            <section id="section-d" class="grid">
+                <div class="box">
+                    <h2 class="content-title">Contact Us</h2>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus sit aspernatur hic. Tenetur dignissimos quas incidunt debitis omnis. Voluptatem, fuga!</p>
+                    <p>{{contact_us_email}}</p>
+                </div>
+                <div class="box">
+                    <h2 class="content-title">About Our Organization</h2>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, tenetur consectetur nulla vero est eligendi. Quisquam facilis nihil quis explicabo ut, aspernatur sunt adipisci sequi quia ratione ipsa nobis praesentium.</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer id="main-footer" class="grid">
+            <div>{{footer_org}}</div>
+            <div>Project By <a href="http://inspiredbits.org" target="_blank">inspiredbits.org</a></div>
+        </footer>
+    </div>
+    <script src="./static/js/vue.js"></script>
+    <script src="./static/js/main.js"></script>
+</body>
+</html>
