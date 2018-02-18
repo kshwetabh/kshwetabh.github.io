@@ -31,6 +31,17 @@ var app = new Vue({
         "Donate", 
         "Spread the word", 
         "Become a volunteer"
-      ]
+      ],
+      images: [
+        './static/images/event-1.jpg',
+        './static/images/site-hero.jpg',
+        './static/images/event-1.jpg',
+        './static/images/site-hero.jpg',
+        './static/images/event-1.jpg'
+      ],
+      index: null
+    },
+    components: {
+      'gallery': VueGallery
     }
   });
