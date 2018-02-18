@@ -1,217 +1,89 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>Tracker</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-    <style>
-        #symbol-table {
-            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        #symbol-table td,
-        #symbol-table th {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-
-        #symbol-table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        #symbol-table tr:hover {
-            background-color: #ddd;
-        }
-
-        #symbol-table th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            text-align: left;
-            background-color: #ff8383;
-            /*#4CAF50;*/
-            color: #463d3d;
-        }
-
-        .gain {
-            color: rgb(2, 189, 5)
-        }
-
-        .loss {
-            color: rgb(255, 14, 14)
-        }
-
-        .mdl-js-snackbar {
-            background: rgb(255, 197, 51);
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
-
-        .mdl-snackbar__text {
-            font-size: 1.2em;
-            color:#4c4848;
-        }
-
-        .number-field {
-            text-align: right;
-            background-color: #beffff;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simple Portfolio Site</title>
+    <link rel="stylesheet" href="./static/styles/style.css">
 </head>
-
 <body>
     <div id="app">
-        <div class="mdl-grid">
-            <div class="mdl-cell mdl-cell--12-col">
-                <div class="input-group">
-                    <div class="mdl-textfield mdl-js-textfield">
-                        <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample2">
-                        <label class="mdl-textfield__label" for="sample2">Auto-Refresh interval (minutes)...</label>
-                        <span class="mdl-textfield__error">Input is not a number!</span>
-                    </div>
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-                        <i class="material-icons">done</i>Apply
-                    </button>
-                </div>
+        <!-- header showcase -->
+        <header id="showcase" class="grid">
+            <div class="bg-image"></div>
+            <div class="content-wrap">
+                <h1>{{showcase_title}}</h1>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus aliquam distinctio impedit deleniti esse quis nobis, omnis incidunt adipisci repudiandae, libero laudantium veritatis vitae laboriosam.?
+                </p>
+                <a href="#section-b" class="btn">Read More</a>
             </div>
-            <div class="mdl-cell mdl-cell--12-col">
-                <!-- <div class="col"> -->
-                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width:90%;">
-                    <thead>
-                        <tr>
-                            <th class="mdl-data-table__cell--non-numeric">Symbol</th>
-                            <th>Current Price</th>
-                            <th>Quantity</th>
-                            <th>Bought At</th>
-                            <th>Target</th>
-                            <th>Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <template v-for="(symbol,index) in symbolData">
-                            <tr>
-                                <td v-bind:class="isActive(symbol)" class="mdl-data-table__cell--non-numeric">
-                                    <span>{{symbol.symbol}}</span>
-                                </td>
-                                <td>{{symbol.currPrice}}</td>
-                                <td><input class="mdl-textfield__input number-field" type="text" v-model="symbol.quantity" pattern="-?[0-9]*(\.[0-9]+)?"></td>
-                                <td><input class="mdl-textfield__input number-field" type="text" v-model="symbol.boughtAt" pattern="-?[0-9]*(\.[0-9]+)?"></td>
-                                <td><input class="mdl-textfield__input number-field" type="text" v-model="symbol.target" pattern="-?[0-9]*(\.[0-9]+)?"></td>
-                                <td>
-                                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect" v-on:click="deleteItem(index)">
-                                        <i class="material-icons" style="color:#8e8888;">delete</i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
-                <div class="mdl-cell mdl-cell--12-col">
-                    <div class="mdl-textfield mdl-js-textfield">
-                        <input class="mdl-textfield__input" type="text" v-model="newSymbol" placeholder="Add Symbol...">
-                    </div>
-                    <button v-on:click="addRow" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-                        <i class="material-icons">add</i>
-                    </button>
-                </div>
-                <div class="mdl-cell mdl-cell--12-col">
-                    <div v-for="symbol in filteredNiftyStocks">
-                        <span v-on:click="selectSymbolFromFilter(symbol)">{{symbol}}</span>
-                   </div>
-                </div>
+        </header>
 
-            </div>
-            <div ref='mdl-js-snackbar' class="mdl-js-snackbar mdl-snackbar" style="display:block;">
-                <div class="mdl-snackbar__text"></div>
-                <button class="mdl-snackbar__action" type="button">Close</button>
-            </div>
-        </div>
+        <!-- Main Area -->
+        <main id="main">
+            <!-- Section A -->
+            <section id="section-a" class="grid">
+                <div class="content-wrap">
+                    <h2 class="content-title">Our Vision</h2>
+                    <div class="content-text">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur dignissimos recusandae vero consectetur? Vero ab quaerat magni officiis totam quo, iusto alias ea incidunt animi repudiandae, assumenda atque, dolorem distinctio possimus! Accusamus dignissimos, tenetur, veniam obcaecati quae nesciunt facilis autem assumenda reprehenderit a accusantium modi blanditiis expedita praesentium debitis sint totam asperiores porro suscipit? Explicabo aperiam, facere ullam aspernatur architecto reprehenderit esse dolore velit debitis nobis itaque corporis, sit eligendi?</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section B -->
+            <section id="section-b" class="grid">
+                <div class="content-wrap">
+                    <h2 class="content-title">Events</h2>
+                </div>
+                <ul>
+                    <li v-for="event in events">
+                        <div class="card">
+                            <img :src="event.event_img" alt="">
+                            <div class="card-content">
+                                <h3 class="card-title">{{event.event_title}}</h3>
+                                <p>{{event.event_desc}}</p>
+                                <a href="#" class="card-action">Details</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Section C -->
+            <section id="section-c" class="grid">
+                <div class="content-wrap">
+                    <h2 class="content-title">Get Involved</h2>
+                    <p>{{get_involved}}</p>
+                    <ul class="getting-involved">
+                        <li v-for="gi in get_involved_items">{{gi}}</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Section D -->
+            <section id="section-d" class="grid">
+                <div class="box">
+                    <h2 class="content-title">Contact Us</h2>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus sit aspernatur hic. Tenetur dignissimos quas incidunt debitis omnis. Voluptatem, fuga!</p>
+                    <p>{{contact_us_email}}</p>
+                </div>
+                <div class="box">
+                    <h2 class="content-title">About Our Organization</h2>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, tenetur consectetur nulla vero est eligendi. Quisquam facilis nihil quis explicabo ut, aspernatur sunt adipisci sequi quia ratione ipsa nobis praesentium.</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer id="main-footer" class="grid">
+            <div>{{footer_org}}</div>
+            <div>Project By <a href="http://inspiredbits.org" target="_blank">inspiredbits.org</a></div>
+        </footer>
     </div>
-
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-    <script>
-        var app = new Vue({
-            el: '#app',
-            data: {
-                newSymbol: '',
-                symbolData: [{
-                    symbol: "INFY",
-                    currPrice: 1000,
-                    quantity: 10,
-                    boughtAt: 1003,
-                    target: 1005
-                },
-                {
-                    symbol: "TCS",
-                    currPrice: 1004,
-                    quantity: 5,
-                    boughtAt: 1003,
-                    target: 1005
-                },
-                {
-                    symbol: "NTPC",
-                    currPrice: 106,
-                    quantity: 25,
-                    boughtAt: 112,
-                    target: 113
-                }],
-                niftyStocks: ["ADANIPORTS", "AMBUJACEM", "ASIANPAINT", "AUROPHARMA", "AXISBANK", "BAJAJ-AUTO", "BAJFINANCE", "BPCL", "BHARTIARTL", "INFRATEL", "BOSCHLTD", "CIPLA", "COALINDIA", "DRREDDY", "EICHERMOT", "GAIL", "HCLTECH", "HDFCBANK", "HEROMOTOCO", "HINDALCO", "HINDPETRO", "HINDUNILVR", "HDFC", "ITC", "ICICIBANK", "IBULHSGFIN", "IOC", "INDUSINDBK", "INFY", "KOTAKBANK", "LT", "LUPIN", "M&M", "MARUTI", "NTPC", "ONGC", "POWERGRID", "RELIANCE", "SBIN", "SUNPHARMA", "TCS", "TATAMOTORS", "TATASTEEL", "TECHM", "UPL", "ULTR", "CEMCO", "VEDL", "WIPRO", "YESBANK", "ZEEL"]
-            },
-            methods: {
-                isActive: function (symbol) {
-                    if (symbol && symbol.currPrice > symbol.boughtAt) {
-                        return "gain";
-                    }
-                    return "loss";
-                },
-                addRow: function () {
-                    if (!this.newSymbol) {
-                        this.showToast("Please enter a Symbol first...")
-                        return
-                    }
-                    this.symbolData.push({ 'symbol': this.newSymbol });
-                    this.newSymbol = null;
-                },
-                deleteItem: function (index) {
-                    var symbol = this.symbolData[index].symbol;
-                    this.symbolData.splice(index, 1);
-                    this.showToast("Deleted " + symbol)
-                },
-                showToast: function (msg) {
-                    this.$refs["mdl-js-snackbar"].MaterialSnackbar.showSnackbar({
-                        message: msg,
-                        timeout: 1000
-                    });
-                },
-                selectSymbolFromFilter: function(symbol) {
-                    if (symbol) {
-                        this.newSymbol = symbol;
-                    }
-                }
-            },
-            computed: {
-                filteredNiftyStocks: function() {
-                    var self = this;
-                    if (self.newSymbol) {
-                        return this.niftyStocks.filter(
-                            function(symbol) {
-                                return symbol.toLowerCase().indexOf(self.newSymbol.toLowerCase())>=0;
-                            }
-                        )
-                    }
-                }
-            }
-        })
-    </script>
-
+    <script src="./static/js/vue.js"></script>
+    <script src="./static/js/main.js"></script>
 </body>
-
 </html>
