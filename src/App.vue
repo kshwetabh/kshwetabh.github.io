@@ -1,98 +1,97 @@
 <template>
   <div id="app">
     <!-- header showcase -->
-        <header id="showcase" class="grid">
-            <!-- <div class="bg-image"></div> -->
-            <div class="bg-image" :style="{ 'background-image': 'url(' + appData.hero.img + ')' }"></div>
+    <header id="showcase" class="grid">
+        <!-- <div class="bg-image"></div> -->
+        <div class="bg-image" :style="{ 'background-image': 'url(' + appData.hero.img + ')' }"></div>
+        <div class="content-wrap">
+            <h1>{{appData.hero.title}}</h1>
+            <p>
+                {{appData.hero.desc}}
+            </p>
+            <a href="#section-a" class="btn">Read More</a>
+        </div>
+    </header>
+
+    <!-- Main Area -->
+    <main id="main">
+        <!-- Section A -->
+        <section id="section-a" class="grid">
             <div class="content-wrap">
-                <h1>{{appData.hero.title}}</h1>
-                <p>
-                    {{appData.hero.desc}}
-                </p>
-                <a href="#section-a" class="btn">Read More</a>
+                <h2 class="content-title">Our Vision</h2>
+                <div class="content-text">
+                    <p>{{appData.vision}}</p>
+                </div>
             </div>
-        </header>
+        </section>
 
-        <!-- Main Area -->
-        <main id="main">
-            <!-- Section A -->
-            <section id="section-a" class="grid">
-                <div class="content-wrap">
-                    <h2 class="content-title">Our Vision</h2>
-                    <div class="content-text">
-                        <p>{{appData.vision}}</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Section B -->
-            <section id="section-b" class="grid">
-                <div class="content-wrap">
-                    <h2 class="content-title">Events</h2>
-                </div>
-                <ul>
-                    <li v-for="(event, index) in appData.events" :key="index">
-                        <div class="card">
-                            <img :src="event.img" alt="">
-                            <div class="card-content">
-                                <h3 class="card-title">{{event.eventtitle}}</h3>
-                                <p>{{event.summary}}</p>
-                                <a href="#" class="card-action">Details</a>
-                            </div>
+        <!-- Section B -->
+        <section id="section-b" class="grid">
+            <div class="content-wrap">
+                <h2 class="content-title">Events</h2>
+            </div>
+            <ul>
+                <li v-for="(event, index) in appData.events" :key="index">
+                    <div class="card">
+                        <img :src="event.img" alt="">
+                        <div class="card-content">
+                            <h3 class="card-title">{{event.eventtitle}}</h3>
+                            <p>{{event.summary}}</p>
+                            <a href="#" class="card-action">Details</a>
                         </div>
-                    </li>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+            <!-- Section C -->
+        <section id="section-c" class="grid">
+            <div class="content-wrap">
+                <h2 class="content-title">Get Involved</h2>
+                <p>{{appData.getinvolved.summary}}</p>
+                <ul class="getting-involved">
+                    <li v-for="(gi, index) in appData.getinvolved.options" :key="index">{{gi}}</li>
                 </ul>
-            </section>
+            </div>
+        </section>
 
-             <!-- Section C -->
-            <section id="section-c" class="grid">
-                <div class="content-wrap">
-                    <h2 class="content-title">Get Involved</h2>
-                    <p>{{appData.getinvolved.summary}}</p>
-                    <ul class="getting-involved">
-                        <li v-for="(gi, index) in appData.getinvolved.options" :key="index">{{gi}}</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- Section D -->
-             <section id="section-d" class="grid">
-                <div class="content-wrap image-gallery">
-                    <h2 class="content-title">ShowCase</h2>
-                    <gallery :images="showcaseImages" :index="index" @close="index = null"></gallery>
-                    <ul>
-                        <li
-                            class="image"
-                            v-for="(image, imageIndex) in showcaseImages"
-                            :key="imageIndex"
-                            @click="index = imageIndex"
-                            :style="{ backgroundImage: 'url(' + image + ')'}"
-                        ></li>
-                    </ul>
-                </div>
-            </section>
+        <!-- Section D -->
+            <section id="section-d" class="grid">
+            <div class="content-wrap image-gallery">
+                <h2 class="content-title">ShowCase</h2>
+                <gallery :images="showcaseImages" :index="index" @close="index = null"></gallery>
+                <ul>
+                    <li
+                        class="image"
+                        v-for="(image, imageIndex) in showcaseImages"
+                        :key="imageIndex"
+                        @click="index = imageIndex"
+                        :style="{ backgroundImage: 'url(' + image + ')'}"
+                    ></li>
+                </ul>
+            </div>
+        </section>
 
 
-            <!-- Section E -->
-            <section id="section-e" class="grid">
-                <div class="box">
-                    <h2 class="content-title">Contact Us</h2>
-                    <p>{{appData.contactus.desc}}</p>
-                    <p>{{appData.contactus.email}}</p>
-                </div>
-                <div class="box">
-                    <h2 class="content-title">About Our Organization</h2>
-                    <p>{{appData.aboutorganization}}</p>
-                </div>
-            </section>
-        </main>
+        <!-- Section E -->
+        <section id="section-e" class="grid">
+            <div class="box">
+                <h2 class="content-title">Contact Us</h2>
+                <p>{{appData.contactus.desc}}</p>
+                <p>{{appData.contactus.email}}</p>
+            </div>
+            <div class="box">
+                <h2 class="content-title">About Our Organization</h2>
+                <p>{{appData.aboutorganization}}</p>
+            </div>
+        </section>
+    </main>
 
-        <!-- Footer -->
-        <footer id="main-footer" class="grid">
-            <div>{{appData.footer.org}}</div>
-            <div>Project By <a href="http://inspiredbits.org" target="_blank">{{appData.footer.copyright}}</a></div>
-        </footer>
-    
+    <!-- Footer -->
+    <footer id="main-footer" class="grid">
+        <div>{{appData.footer.org}}</div>
+        <div>Project By <a href="http://inspiredbits.org" target="_blank">{{appData.footer.copyright}}</a></div>
+    </footer>
   </div>
 </template>
 
@@ -106,40 +105,40 @@ export default {
     return {
       appData: {
         hero: {
-          title: "Let's Feed Faridabad***",
-          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus aliquam distinctio impedit deleniti esse quis nobis, omnis incidunt adipisci repudiandae, libero laudantium veritatis vitae laboriosam.?***"
+          title: "Let's Feed Faridabad",
+          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus aliquam distinctio impedit deleniti esse quis nobis, omnis incidunt adipisci repudiandae, libero laudantium veritatis vitae laboriosam.?"
         },
         events: [
             {
-                event_title: "Event 1***",
+                event_title: "Event 1",
                 event_desc: "Winter cloth donation event at one of the underprivileged schools in Sector 45.\
                 Clothes were distributed to the children. Students voluntarily said they wanted the distribution\
                 to be on need basis.",
                 event_img: "./assets/images/event-1.jpg"
             },{
-              event_title: "Event 2***",
+              event_title: "Event 2",
               event_desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa omnis, dolorum ab eaque \
               magnam vero error perferendis autem repellat? Et.",
               event_img: "./assets/images/site-hero.jpg"
             },{
-              event_title: "Event 3***",
+              event_title: "Event 3",
               event_desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa omnis, dolorum ab eaque \
               magnam vero error perferendis autem repellat? Et.",
               event_img: "./assets/images/event-1.jpg"
             }
         ],
-        aboutorganization: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, tenetur consectetur nulla vero est eligendi. Quisquam facilis nihil quis explicabo ut, aspernatur sunt adipisci sequi quia ratione ipsa nobis praesentium.***',
+        aboutorganization: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, tenetur consectetur nulla vero est eligendi. Quisquam facilis nihil quis explicabo ut, aspernatur sunt adipisci sequi quia ratione ipsa nobis praesentium.',
         contactus: {
-          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus sit aspernatur hic. Tenetur dignissimos quas incidunt debitis omnis. Voluptatem, fuga!***" ,
-          email: 'letsfeedfaridabad@gmail.com***'
+          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus sit aspernatur hic. Tenetur dignissimos quas incidunt debitis omnis. Voluptatem, fuga!" ,
+          email: 'letsfeedfaridabad@gmail.com'
         },
-        vision: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur dignissimos recusandae vero consectetur? Vero ab quaerat magni officiis totam quo, iusto alias ea incidunt animi repudiandae, assumenda atque, dolorem distinctio possimus! Accusamus dignissimos, tenetur, veniam obcaecati quae nesciunt facilis autem assumenda reprehenderit a accusantium modi blanditiis expedita praesentium debitis sint totam asperiores porro suscipit? Explicabo aperiam, facere ullam aspernatur architecto reprehenderit esse dolore velit debitis nobis itaque corporis, sit eligendi?***',
+        vision: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur dignissimos recusandae vero consectetur? Vero ab quaerat magni officiis totam quo, iusto alias ea incidunt animi repudiandae, assumenda atque, dolorem distinctio possimus! Accusamus dignissimos, tenetur, veniam obcaecati quae nesciunt facilis autem assumenda reprehenderit a accusantium modi blanditiis expedita praesentium debitis sint totam asperiores porro suscipit? Explicabo aperiam, facere ullam aspernatur architecto reprehenderit esse dolore velit debitis nobis itaque corporis, sit eligendi?',
         footer: {
-          org: "Let's Feed Faridabad***",
-          copyright: "inspiredbits.org***"
+          org: "Let's Feed Faridabad",
+          copyright: "inspiredbits.org"
         },
         getinvolved: {
-          summary: 'There are multiple ways to get involved***',
+          summary: 'There are multiple ways to get involved',
           options: []
         }
       },
@@ -365,6 +364,7 @@ p {
 }
 
 /* Media Queries */
+/* Small devices */
 @media (max-width: 700px) {
   #section-d li {
     position: relative;
@@ -377,13 +377,25 @@ p {
     background-repeat: no-repeat;
     background-position: center;
   }
+
+  .image-gallery ul {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 10px;
+  }
 }
 
+/* Desktop */
 @media(min-width: 700px) {
     .grid {
         display: grid;
         grid-template-columns: 1fr repeat(2, minmax(auto, 25em)) 1fr;
         border: 1px solid black;
+    }
+
+    #showcase .bg-image {
+        background-position-y: -450px;
+        background-attachment: fixed;
     }
 
     #section-a .content-text {
