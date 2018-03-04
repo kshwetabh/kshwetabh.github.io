@@ -1,5 +1,36 @@
 <template>
   <div id="app">
+    <nav class="navbar">
+        <span class="open-slide">
+            <a href="#" @click="slideMenu">
+                <svg height="30" width="30">
+                    <path d="M0,5 30,5" stroke="#fff" stroke-witdh="5"/>
+                    <path d="M0,14 30,14" stroke="#fff" stroke-witdh="5"/>
+                    <path d="M0,23 30,23" stroke="#fff" stroke-witdh="5"/>
+                </svg>
+            </a>    
+        </span> 
+        <ul class="navbar-nav">
+            <li><a href="#showcase">Home</a></li>
+            <li><a href="#section-a">Our Vision</a></li>
+            <li><a href="#section-b">Events</a></li>
+            <li><a href="#section-c">Get Involved</a></li>
+            <li><a href="#section-d">Showcase</a></li>
+            <li><a href="#section-e">Contact Us</a></li>
+            <li><a href="#section-e">About Us</a></li>
+        </ul>
+    </nav>
+    <div class="side-nav close" v-bind:class="{open: isSlideMenuOpen}">
+        <a href="#" class="btn-close" @click="closeSideMenu">&times;</a>
+        <a href="#showcase" @click="closeSideMenu">Home</a>
+        <a href="#section-a" @click="closeSideMenu">Our Vision</a>
+        <a href="#section-b" @click="closeSideMenu">Events</a>
+        <a href="#section-c" @click="closeSideMenu">Get Involved</a>
+        <a href="#section-d" @click="closeSideMenu">Showcase</a>
+        <a href="#section-e" @click="closeSideMenu">Contact Us</a>
+        <a href="#section-e" @click="closeSideMenu">About Us</a>
+    </div>
+
     <!-- header showcase -->
     <header id="showcase" class="grid">
         <!-- <div class="bg-image"></div> -->
@@ -142,7 +173,8 @@ export default {
           options: []
         }
       },
-      index: null      
+      index: null,
+      isSlideMenuOpen: false  
     }
   },
   components: {
@@ -164,9 +196,14 @@ export default {
       });
   },
   methods: {
-    submitName() {
-      debugger
+    submitName: function() {      
       namesRef.push({name: this.name, edit: false});
+    },
+    slideMenu: function() {
+        this.isSlideMenuOpen = true;
+    },
+    closeSideMenu: function() {
+        this.isSlideMenuOpen = false;
     }
   },
   computed: {
@@ -363,6 +400,83 @@ p {
     text-decoration: none;
 }
 
+/* Nav Menu & Side Bar */
+.navbar {
+    background-color: #333;/*#3b5998;*/
+    overflow: hidden;
+    height:63px;
+    width: 100%;
+    position: fixed;
+    opacity: .6;
+    top:0px;
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.navbar ul {
+    margin: 8px 0 0 0;
+    list-style: none;
+}
+
+.navbar a:hover {
+    background-color: #ddd;
+    color: #000;
+}
+
+.side-nav {
+    height:100%;
+    width:0px;
+    position: fixed;
+    z-index:1;
+    top:0;
+    left:0;
+    background-color: #111;
+    /* opacity: 0.9; */
+    overflow-x: hidden;
+    padding-top: 60px;
+    transition: 0.3s;
+    text-align: left;
+}
+
+.side-nav a {
+    padding: 10px 10px 10px 30px;
+    text-decoration: none;
+    font-size: 22px;
+    color: #ccc;
+    display: block;
+    transition: 0.3s;
+}
+.side-nav a:hover {
+    color: #fff;
+}
+.side-nav .btn-close {
+    position: absolute;
+    top: 0px;
+    right:22px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+
+
+.open {
+    width: 250px !important;
+}
+
+.close {
+    width: 0px;
+}
+
+
 /* Media Queries */
 /* Small devices */
 @media (max-width: 700px) {
@@ -377,12 +491,18 @@ p {
     background-repeat: no-repeat;
     background-position: center;
   }
-
   .image-gallery ul {
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-gap: 10px;
   }
+  .navbar {
+      position: absolute;
+      background: transparent;
+  }
+  .navbar-nav {
+        display:none;
+    }
 }
 
 /* Desktop */
@@ -425,6 +545,10 @@ p {
 
     #section-b li {
         width: 31%;
+    }
+
+     .open-slide {
+        display:none;
     }
 }
 </style>
