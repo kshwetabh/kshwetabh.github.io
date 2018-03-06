@@ -12,7 +12,7 @@
         </span> 
         <ul class="navbar-nav">
             <li><a href="#showcase">Home</a></li>
-            <li><a href="#section-a">Our Vision</a></li>
+            <li><a href="#section-a">Our Mission</a></li>
             <li><a href="#section-b">Events</a></li>
             <li><a href="#section-c">Get Involved</a></li>
             <li><a href="#section-d">Showcase</a></li>
@@ -23,7 +23,7 @@
     <div class="side-nav close" v-bind:class="{open: isSlideMenuOpen}">
         <a href="#" class="btn-close" @click="closeSideMenu">&times;</a>
         <a href="#showcase" @click="closeSideMenu">Home</a>
-        <a href="#section-a" @click="closeSideMenu">Our Vision</a>
+        <a href="#section-a" @click="closeSideMenu">Our Mission</a>
         <a href="#section-b" @click="closeSideMenu">Events</a>
         <a href="#section-c" @click="closeSideMenu">Get Involved</a>
         <a href="#section-d" @click="closeSideMenu">Showcase</a>
@@ -38,7 +38,7 @@
         <div class="content-wrap">
             <h1>{{appData.hero.title}}</h1>
             <p>
-                {{appData.hero.desc}}
+                {{appData.hero.desc}}<br/>{{appData.hero.desc1}}
             </p>
             <a href="#section-a" class="btn">Read More</a>
         </div>
@@ -49,9 +49,13 @@
         <!-- Section A -->
         <section id="section-a" class="grid">
             <div class="content-wrap">
-                <h2 class="content-title">Our Vision</h2>
+                <h2 class="content-title">Our Mission</h2>
                 <div class="content-text">
-                    <p>{{appData.vision}}</p>
+                    <p v-html="appData.mission.statement"></p>
+                    <ul>
+                        <li v-for="stmt in appData.mission.statement1" style="list-style:none;">{{stmt}}</li>
+                    </ul>
+
                 </div>
             </div>
         </section>
@@ -108,6 +112,11 @@
         <section id="section-e" class="grid">
             <div class="box">
                 <h2 class="content-title">Contact Us</h2>
+                <ul>
+                    <li v-for="(item, index) in appData.contactus" style="list-style:none;line-height:30px;" :key="index">
+                       <icon :name="item.icon" scale="1.7" class="contactus-icons"></icon> - {{item.desc}}
+                    </li>
+                </ul>
                 <p>{{appData.contactus.desc}}</p>
                 <p>{{appData.contactus.email}}</p>
             </div>
@@ -120,15 +129,22 @@
 
     <!-- Footer -->
     <footer id="main-footer" class="grid">
-        <div>{{appData.footer.org}}</div>
-        <div>Project By <a href="http://inspiredbits.org" target="_blank">{{appData.footer.copyright}}</a></div>
+        <div><icon name="copyright" scale="1.2" class="contactus-icons"></icon>{{appData.footer.org}}</div>
+        <div>Built with <icon name="heart" scale="1.2" class="contactus-icons"></icon> by <a href="http://inspiredbits.org" target="_blank">{{appData.footer.copyright}}</a></div>
     </footer>
+
   </div>
 </template>
 
 <script>
 import {db} from './firebase';
 import VueGallery from 'vue-gallery';
+import 'vue-awesome/icons/facebook-f';
+import 'vue-awesome/icons/whatsapp';
+import 'vue-awesome/icons/globe';
+import 'vue-awesome/icons/at';
+import 'vue-awesome/icons/copyright';
+import 'vue-awesome/icons/heart';
 
 export default {
   name: 'app',
@@ -137,40 +153,76 @@ export default {
       appData: {
         hero: {
           title: "Let's Feed Faridabad",
-          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus aliquam distinctio impedit deleniti esse quis nobis, omnis incidunt adipisci repudiandae, libero laudantium veritatis vitae laboriosam.?"
+          desc: "We Make A Living by What We Get, But We Make A Life By What We Give.",
+          desc1: "An initiative to make a change.",
+          img: "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/site-hero.jpg?alt=media&token=386ad45a-0e89-4164-a4f7-260684bf2c23"
         },
         events: [
             {
-                event_title: "Event 1",
-                event_desc: "Winter cloth donation event at one of the underprivileged schools in Sector 45.\
-                Clothes were distributed to the children. Students voluntarily said they wanted the distribution\
-                to be on need basis.",
-                event_img: "./assets/images/event-1.jpg"
+                eventtitle: "Winter Cloth Donation",
+                summary: `Winter cloth donation event at one of the underprivileged schools in Sector 45. Clothes were distributed to the children. 
+                        Students voluntarily said they wanted the distribution to be on need basis.`,
+                img: "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/event-1.jpg?alt=media&token=15e6a929-c897-4c59-b0e4-3f5c1a210906"
             },{
-              event_title: "Event 2",
-              event_desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa omnis, dolorum ab eaque \
-              magnam vero error perferendis autem repellat? Et.",
-              event_img: "./assets/images/site-hero.jpg"
+              eventtitle: "Old Age Home",
+              summary: `Old age home is the aged unfortunate and unexpected destination despite delivering all fortunes and expectation of their
+                        beloved son or daughter...`,
+              img: "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/visit_to_elderly.JPG?alt=media&token=7ff97d3b-a53e-42b8-b3a7-7dc82fbbede9"
             },{
-              event_title: "Event 3",
-              event_desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa omnis, dolorum ab eaque \
-              magnam vero error perferendis autem repellat? Et.",
-              event_img: "./assets/images/event-1.jpg"
+              eventtitle: "Birthday with Kids",
+              summary: `The Best way to earn an happiness is to give somebody food to eat & bring a smile on there face. Celebrating kids 
+                        birthday served the purpose.`,
+              img: "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/birthday_with_kids.JPG?alt=media&token=2e48823a-c7bb-4fdf-86ba-69d0416c2e23"
             }
         ],
+        showcase: [
+            "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/event-1.jpg?alt=media&token=15e6a929-c897-4c59-b0e4-3f5c1a210906",
+            "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/site-hero.jpg?alt=media&token=386ad45a-0e89-4164-a4f7-260684bf2c23",
+            "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/education.JPG?alt=media&token=0acd1b7f-f6a6-47a1-b14e-7bf67faec202",
+            "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/birthday_with_kids.JPG?alt=media&token=2e48823a-c7bb-4fdf-86ba-69d0416c2e23",
+            "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/visit_to_elderly.JPG?alt=media&token=7ff97d3b-a53e-42b8-b3a7-7dc82fbbede9"
+        ],
         aboutorganization: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, tenetur consectetur nulla vero est eligendi. Quisquam facilis nihil quis explicabo ut, aspernatur sunt adipisci sequi quia ratione ipsa nobis praesentium.',
-        contactus: {
-          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus sit aspernatur hic. Tenetur dignissimos quas incidunt debitis omnis. Voluptatem, fuga!" ,
-          email: 'letsfeedfaridabad@gmail.com'
+        contactus: [{
+                    icon: "whatsapp",
+                    desc: "9999411300 & Group: The Lets Feed Faridabad"
+                },{
+                    icon: "facebook-f",
+                    desc: "Join the Group - Lets Feed Faridabad"
+                },{
+                    icon: "at",
+                    desc: "letsfeedfaridabad@gmail.com"
+                },{
+                    icon: "globe",
+                    desc: "letsfeedfaridabad.org"
+            }],
+        mission: {
+            statement: 'We have the power to advance social progress in our community and around us. <br/> "<i>Give back to the Society</i>" attitude will help to achieve the same.',
+            statement1: [
+                "Help the Needy",
+                "Education for Underprivileged Kids",
+                "Each one Teach One",
+                "Support Old Age Home",
+                "Donate a Bread",
+                "Cleaniless in our Society",
+                "Awareness in the Society to make a change"
+            ]
         },
-        vision: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur dignissimos recusandae vero consectetur? Vero ab quaerat magni officiis totam quo, iusto alias ea incidunt animi repudiandae, assumenda atque, dolorem distinctio possimus! Accusamus dignissimos, tenetur, veniam obcaecati quae nesciunt facilis autem assumenda reprehenderit a accusantium modi blanditiis expedita praesentium debitis sint totam asperiores porro suscipit? Explicabo aperiam, facere ullam aspernatur architecto reprehenderit esse dolore velit debitis nobis itaque corporis, sit eligendi?',
+        
         footer: {
           org: "Let's Feed Faridabad",
           copyright: "inspiredbits.org"
         },
         getinvolved: {
           summary: 'There are multiple ways to get involved',
-          options: []
+          options: [
+              "Educating Children", 
+              "Old Age Home",
+              "Donate Food",
+              "Become a Volunteer",
+              "Spread the word",
+              "Celebrate Birthday with Underprivileged"
+            ]
         }
       },
       index: null,
@@ -191,8 +243,8 @@ export default {
      let self = this;
       db.ref('/letsfeedfaridabad').once('value').then(function(snapshot) {
         console.log("letsfeedfaridabad --->", snapshot.val());
-        self.appData = snapshot.val();
-        return snapshot.val();
+        // self.appData = snapshot.val();
+        // return snapshot.val();
       });
   },
   methods: {
@@ -476,6 +528,11 @@ p {
     width: 0px;
 }
 
+.contactus-icons {
+    padding: 0px 5px;
+    vertical-align: middle;
+}
+
 
 /* Media Queries */
 /* Small devices */
@@ -519,8 +576,8 @@ p {
     }
 
     #section-a .content-text {
-        columns: 2;
-        column-gap: 2em;
+        columns: 1;
+        /* column-gap: 2em; */
     }
 
     #section-a .content-text p {
