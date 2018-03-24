@@ -16,7 +16,7 @@
             <li><a href="#section-b">Events</a></li>
             <li><a href="#section-c">Get Involved</a></li>
             <li><a href="#section-d">Showcase</a></li>
-            <li><a href="#section-e">Contact Us</a></li>
+            <li><a href="#section-e">Join US</a></li>
             <li><a href="#section-e">About Us</a></li>
         </ul>
     </nav>
@@ -27,7 +27,7 @@
         <a href="#section-b" @click="closeSideMenu">Events</a>
         <a href="#section-c" @click="closeSideMenu">Get Involved</a>
         <a href="#section-d" @click="closeSideMenu">Showcase</a>
-        <a href="#section-e" @click="closeSideMenu">Contact Us</a>
+        <a href="#section-e" @click="closeSideMenu">Join US</a>
         <a href="#section-e" @click="closeSideMenu">About Us</a>
     </div>
 
@@ -111,7 +111,7 @@
         <!-- Section E -->
         <section id="section-e" class="grid">
             <div class="box">
-                <h2 class="content-title">Contact Us</h2>
+                <h2 class="content-title">Join US</h2>
                 <ul>
                     <li v-for="(item, index) in appData.contactus" style="list-style:none;line-height:30px;" :key="index">
                        <icon :name="item.icon" scale="1.7" class="contactus-icons"></icon> - {{item.desc}}
@@ -185,7 +185,7 @@ export default {
         aboutorganization: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, tenetur consectetur nulla vero est eligendi. Quisquam facilis nihil quis explicabo ut, aspernatur sunt adipisci sequi quia ratione ipsa nobis praesentium.',
         contactus: [{
                     icon: "whatsapp",
-                    desc: "9999411300 & Group: The Lets Feed Faridabad"
+                    desc: "9999411300 & Group: Lets Feed Faridabad"
                 },{
                     icon: "facebook-f",
                     desc: "Join the Group - Lets Feed Faridabad"
@@ -205,6 +205,7 @@ export default {
                 "Support Old Age Home",
                 "Donate a Bread",
                 "Cleaniless in our Society",
+                "Cloth Donation",
                 "Awareness in the Society to make a change"
             ]
         },
