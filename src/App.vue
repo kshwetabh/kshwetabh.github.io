@@ -2,48 +2,46 @@
   <div id="app">
     <nav class="navbar">
         <span class="open-slide">
-            <a href="#" @click="slideMenu">
+            <a href="#" @click="slideMenu" class="open-slide-menu">
                 <svg height="30" width="30">
-                    <path d="M0,5 30,5" stroke="#fff" stroke-witdh="5"/>
-                    <path d="M0,14 30,14" stroke="#fff" stroke-witdh="5"/>
-                    <path d="M0,23 30,23" stroke="#fff" stroke-witdh="5"/>
+                    <path d="M0,5 30,5" stroke="#926239" stroke-witdh="8px"/>
+                    <path d="M0,14 30,14" stroke="#926239" stroke-witdh="8px"/>
+                    <path d="M0,23 30,23" stroke="#926239" stroke-witdh="8px"/>
                 </svg>
             </a>    
         </span> 
         <ul class="navbar-nav">
-            <li><a href="#showcase">Home</a></li>
-            <li><a href="#section-a">Our Mission</a></li>
-            <li><a href="#section-b">Events</a></li>
-            <li><a href="#section-c">Get Involved</a></li>
-            <li><a href="#section-d">Showcase</a></li>
-            <li><a href="#section-e">Join US</a></li>
-            <li><a href="#section-e">About Us</a></li>
+            <li><a href="#" onclick="return smoothScrollTo('showcase');">Home</a></li>
+            <li><a href="#" onclick="smoothScrollTo('section-a');">Our Mission</a></li>
+            <li><a href="#" onclick="smoothScrollTo('section-b');">Events</a></li>
+            <li><a href="#" onclick="smoothScrollTo('section-c');">Get Involved</a></li>
+            <li><a href="#" onclick="smoothScrollTo('section-d');">Happy Moments</a></li>
+            <li><a href="#" onclick="smoothScrollTo('section-e');">Join US</a></li>
+            <!-- <li><a href="#section-e">About Us</a></li> -->
         </ul>
     </nav>
     <div class="side-nav close" v-bind:class="{open: isSlideMenuOpen}">
         <a href="#" class="btn-close" @click="closeSideMenu">&times;</a>
-        <a href="#showcase" @click="closeSideMenu">Home</a>
-        <a href="#section-a" @click="closeSideMenu">Our Mission</a>
-        <a href="#section-b" @click="closeSideMenu">Events</a>
-        <a href="#section-c" @click="closeSideMenu">Get Involved</a>
-        <a href="#section-d" @click="closeSideMenu">Showcase</a>
-        <a href="#section-e" @click="closeSideMenu">Join US</a>
-        <a href="#section-e" @click="closeSideMenu">About Us</a>
+        <a href="#" @click="closeSideMenu" onclick="smoothScrollTo('showcase');">Home</a>
+        <a href="#" @click="closeSideMenu" onclick="smoothScrollTo('section-a');">Our Mission</a>
+        <a href="#" @click="closeSideMenu" onclick="smoothScrollTo('section-b');">Events</a>
+        <a href="#" @click="closeSideMenu" onclick="smoothScrollTo('section-c');">Get Involved</a>
+        <a href="#" @click="closeSideMenu" onclick="smoothScrollTo('section-d');">Happy Moments</a>
+        <a href="#" @click="closeSideMenu" onclick="smoothScrollTo('section-e');">Join US</a>
+        <!-- <a href="#section-e" @click="closeSideMenu">About Us</a> -->
     </div>
 
     <!-- header showcase -->
-    <header id="showcase" class="grid">
-        <!-- <div class="bg-image"></div> -->
-        <div class="bg-image" :style="{ 'background-image': 'url(' + appData.hero.img + ')' }"></div>
+    <header id="showcase" class="grid" >
+        <transition name="slide">
+            <div class="bg-image" :key="currentImage" :style="{ 'background-image': 'url(' + currentImage + ')' }"></div>
+        </transition>
         <div class="content-wrap">
             <h1>{{appData.hero.title}}</h1>
-            <p>
-                {{appData.hero.desc}}<br/>{{appData.hero.desc1}}
-            </p>
-            <a href="#section-a" class="btn">Read More</a>
+            <p class="hero-desc">{{appData.hero.desc}}</p>
+            <p class="hero-minor-desc">{{appData.hero.desc1}}</p>
         </div>
     </header>
-
     <!-- Main Area -->
     <main id="main">
         <!-- Section A -->
@@ -53,7 +51,7 @@
                 <div class="content-text">
                     <p v-html="appData.mission.statement"></p>
                     <ul>
-                        <li v-for="stmt in appData.mission.statement1" style="list-style:none;">{{stmt}}</li>
+                        <li v-for="(stmt, index) in appData.mission.statement1" style="list-style:none;" :key="index">{{stmt}}</li>
                     </ul>
 
                 </div>
@@ -66,9 +64,11 @@
                 <h2 class="content-title">Events</h2>
             </div>
             <ul>
-                <li v-for="(event, index) in appData.events" :key="index">
+                <li v-for="(event, index) in eventListForDisplay" :key="index">
                     <div class="card">
-                        <img :src="event.img" alt="">
+                        <div style="min-height:210px;">
+                            <img :src="event.img" alt="">
+                        </div>
                         <div class="card-content">
                             <h3 class="card-title">{{event.eventtitle}}</h3>
                             <p>{{event.summary}}</p>
@@ -77,6 +77,12 @@
                     </div>
                 </li>
             </ul>
+            <div class="content-wrap">
+                <button href="#" class="prev" @click.stop="previousEvent">&#8249;</button>
+                <button href="#" class="next" @click.prevent="nextEvent">&#8250;</button>
+                <button href="#" class="next" @click.prevent="showAllEvents">&#187;</button>
+                <button href="#" class="show-all-ld" @click.prevent="showAllEvents">Show All Events</button>
+            </div>
         </section>
 
             <!-- Section C -->
@@ -93,7 +99,7 @@
         <!-- Section D -->
             <section id="section-d" class="grid">
             <div class="content-wrap image-gallery">
-                <h2 class="content-title">ShowCase</h2>
+                <h2 class="content-title">Happy Moments</h2>
                 <gallery :images="showcaseImages" :index="index" @close="index = null"></gallery>
                 <ul>
                     <li
@@ -110,27 +116,26 @@
 
         <!-- Section E -->
         <section id="section-e" class="grid">
-            <div class="box">
+            <div class="content-wrap">
                 <h2 class="content-title">Join US</h2>
                 <ul>
                     <li v-for="(item, index) in appData.contactus" style="list-style:none;line-height:30px;" :key="index">
-                       <icon :name="item.icon" scale="1.7" class="contactus-icons"></icon> - {{item.desc}}
+                       <icon :name="item.icon" scale="1.7" class="contactus-icons"></icon> <a v-bind:href="item.link">{{item.desc}}</a>
                     </li>
                 </ul>
                 <p>{{appData.contactus.desc}}</p>
                 <p>{{appData.contactus.email}}</p>
             </div>
-            <div class="box">
+            <!-- <div class="box">
                 <h2 class="content-title">About Our Organization</h2>
                 <p>{{appData.aboutorganization}}</p>
-            </div>
+            </div> -->
         </section>
     </main>
 
     <!-- Footer -->
     <footer id="main-footer" class="grid">
-        <div><icon name="copyright" scale="1.2" class="contactus-icons"></icon>{{appData.footer.org}}</div>
-        <div>Built with <icon name="heart" scale="1.2" class="contactus-icons"></icon> by <a href="http://inspiredbits.org" target="_blank">{{appData.footer.copyright}}</a></div>
+        <div>{{appData.footer.org}}</div>
     </footer>
 
   </div>
@@ -150,12 +155,19 @@ export default {
   name: 'app',
   data () {
     return {
+      currentHeroCounter: 0,
+      currentEventCounter: 0,
       appData: {
         hero: {
           title: "Let's Feed Faridabad",
           desc: "We Make A Living by What We Get, But We Make A Life By What We Give.",
           desc1: "An initiative to make a change.",
-          img: "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/site-hero.jpg?alt=media&token=386ad45a-0e89-4164-a4f7-260684bf2c23"
+          imgs: ['https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/site-hero-3-school-renovation.jpg?alt=media&token=f9ba1a82-203a-4cd6-96a9-18ea04c2c4f9',
+                'https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/site-hero.jpg?alt=media&token=386ad45a-0e89-4164-a4f7-260684bf2c23',
+                'https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/event-1.jpg?alt=media&token=15e6a929-c897-4c59-b0e4-3f5c1a210906', 
+                'https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/site-hero-1.jpg?alt=media&token=be3b7f1b-c7cc-4f91-b818-dab5deed29b5',
+                'https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/site-hero-2.jpg?alt=media&token=ae9d829c-7224-4e22-973f-2696d968955f',
+            ],
         },
         events: [
             {
@@ -164,15 +176,25 @@ export default {
                         Students voluntarily said they wanted the distribution to be on need basis.`,
                 img: "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/event-1.jpg?alt=media&token=15e6a929-c897-4c59-b0e4-3f5c1a210906"
             },{
-              eventtitle: "Old Age Home",
-              summary: `Old age home is the aged unfortunate and unexpected destination despite delivering all fortunes and expectation of their
-                        beloved son or daughter...`,
-              img: "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/visit_to_elderly.JPG?alt=media&token=7ff97d3b-a53e-42b8-b3a7-7dc82fbbede9"
+                eventtitle: "Old Age Home",
+                summary: `Old age home is the aged unfortunate and unexpected destination despite delivering all fortunes and expectation of their
+                            beloved son or daughter...`,
+                img: "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/visit_to_elderly.JPG?alt=media&token=7ff97d3b-a53e-42b8-b3a7-7dc82fbbede9"
             },{
-              eventtitle: "Birthday with Kids",
-              summary: `The Best way to earn an happiness is to give somebody food to eat & bring a smile on there face. Celebrating kids 
-                        birthday served the purpose.`,
-              img: "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/birthday_with_kids.JPG?alt=media&token=2e48823a-c7bb-4fdf-86ba-69d0416c2e23"
+                eventtitle: "Birthday with Kids",
+                summary: `The Best way to earn an happiness is to give somebody food to eat & bring a smile on there face. Celebrating kids 
+                            birthday served the purpose.`,
+                img: "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/birthday_with_kids.JPG?alt=media&token=2e48823a-c7bb-4fdf-86ba-69d0416c2e23"
+            },{
+                eventtitle: "Eid Food Distribution",
+                summary: `The Best way to earn an happiness is to give somebody food to eat & bring a smile on there face. Celebrating kids 
+                            birthday served the purpose.`,
+                img: "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/eid-food-distribution.jpg?alt=media&token=737ec024-880f-4d1b-95d9-87453e8e36c7"
+            },{
+                eventtitle: "School Renovation",
+                summary: `The Best way to earn an happiness is to give somebody food to eat & bring a smile on there face. Celebrating kids 
+                            birthday served the purpose.`,
+                img: "https://firebasestorage.googleapis.com/v0/b/smartmirror-143313.appspot.com/o/site-hero-3-school-renovation.jpg?alt=media&token=f9ba1a82-203a-4cd6-96a9-18ea04c2c4f9"
             }
         ],
         showcase: [
@@ -185,15 +207,22 @@ export default {
         aboutorganization: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, tenetur consectetur nulla vero est eligendi. Quisquam facilis nihil quis explicabo ut, aspernatur sunt adipisci sequi quia ratione ipsa nobis praesentium.',
         contactus: [{
                     icon: "whatsapp",
-                    desc: "9999411300 & Group: Lets Feed Faridabad"
+                    link: "https://api.whatsapp.com/send?phone=9999411300",
+                    desc: "Whatsapp - 9999411300"
+                },{
+                    icon: "whatsapp",
+                    desc: "Whatsapp Group: 'Lets Feed Faridabad'"
                 },{
                     icon: "facebook-f",
-                    desc: "Join the Group - Lets Feed Faridabad"
+                    link: "https://www.facebook.com/groups/letsfeedfaridabad/",
+                    desc: "Facebook Group - Lets Feed Faridabad"
                 },{
                     icon: "at",
+                    link: "mailto:letsfeedfaridabad@gmail.com?Subject=Hi",
                     desc: "letsfeedfaridabad@gmail.com"
                 },{
                     icon: "globe",
+                    link: "https://letsfeedfaridabad.org",
                     desc: "letsfeedfaridabad.org"
             }],
         mission: {
@@ -211,7 +240,7 @@ export default {
         },
         
         footer: {
-          org: "Let's Feed Faridabad",
+          org: "Copyright © Let's Feed Faridabad. All rights reserved.",
           copyright: "inspiredbits.org"
         },
         getinvolved: {
@@ -247,6 +276,8 @@ export default {
         // self.appData = snapshot.val();
         // return snapshot.val();
       });
+      //for carousel
+      this.startRotation();
   },
   methods: {
     submitName: function() {      
@@ -257,27 +288,74 @@ export default {
     },
     closeSideMenu: function() {
         this.isSlideMenuOpen = false;
+    },
+
+    //for carousel
+    startRotation: function() {
+        this.timer = setInterval(this.nextHero, 5000);
+    },
+
+    nextHero: function() {
+        this.currentHeroCounter += 1
+    },
+    previousEvent: function() {
+        this.currentEventCounter -= 1
+    },
+    nextEvent: function() {
+        this.currentEventCounter += 1
+    },
+    showAllEvents: function() {
+        //unimplemented
     }
   },
   computed: {
     showcaseImages: function() {
       if (this.appData.showcase)
         return Object.values(this.appData.showcase);
+    },
+    currentImage: function() {
+        return this.appData.hero.imgs[Math.abs(this.currentHeroCounter) % this.appData.hero.imgs.length];
+    },
+    eventListForDisplay: function() {
+        var eventsForDisplay = [];
+        for (var i=1; i<4; i++) {
+            eventsForDisplay.push(this.appData.events[(this.currentEventCounter+i)%this.appData.events.length]); // you could push to an array as well
+        }
+        return eventsForDisplay;
     }
   }
 }
 </script>
 
 <style>
+* {
+    padding: 0;
+    margin: 0;
+}
+
 /* Core Style */
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #333;
-    color: #fff;
+    /* font-family: Arial, Helvetica, sans-serif; */
+    font-family: 'Lato', sans-serif;
+    /* background: #333; */
+    /* color: #fff; */
+    background: #f5f5f5;    
+    color: #333;
     font-size: 1.1em;
     line-height: 1.5;
     text-align: center;
+    overflow-x: hidden;
+}
+
+::-moz-selection { /* Code for Firefox */
+    color: #333;
+    background: #b58154b8;
+}
+
+::selection {
+    color: #fff;
+    background: #b58154b8;
 }
 
 img {
@@ -314,26 +392,48 @@ p {
 /* Header Showcase */
 
 #showcase {
-    min-height: 450px;
+    height: 60vh;
     color: #fff;
     text-align: center;
+    background-color: rgba(8, 8, 8, 0.3);
+    /*justify-content: center;
+    align-items: center;*/
+}
+
+#showcase p {
+    font-weight: 300;
+    font-size: 21px;
 }
 
 #showcase .bg-image {
     position: absolute;
-    /* background: #333 url('./assets/images/site-hero.jpg'); */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
-    height:450px;
+    height: 60vh;
+    /* height:450px; */
     z-index: -1;
-    opacity: .3;
+    opacity: .5;
+}
+
+.hero-desc {
+    margin: 0px;
+    color:#efefef;
+    padding:0px;
+}
+
+.hero-minor-desc {
+    margin: 0px;
+    color:#efefef;
+    padding:0px;
+    text-decoration: overline;
 }
 
 #showcase h1 {
     padding-top: 100px;
     padding-bottom: 0;
+    font-size: 50px;
 }
 
 #showcase .content-wrap,
@@ -366,8 +466,35 @@ p {
     margin-bottom: 1em;
     background: #fff;
     color: #333;
+    /* color: #926239; */
 }
 
+.prev,
+.next,
+.show-all-ld {
+    background-color: #926239;
+    margin: 2px 5px;
+    padding: 5px 20px;
+    color: #efefef;
+    cursor: pointer;
+    border: 0;
+    font-weight: 800;
+    font-size: 1.5em;
+}
+.show-all-ld {
+    font-weight: normal;
+    font-size: 1em;
+    display: none;
+    text-align: center;
+    width:100%;
+}
+
+.prev:hover,
+.next:hover {
+    background: #ac6a30;
+    color: white;
+}
+    
 .card-content {
     padding: 1.5em;
 }
@@ -379,17 +506,22 @@ p {
 
 .card-action {
     display: inline-block;
-    background: rgb(89, 88, 88);
+    background-color: #926239;
     color: #fff;
     text-decoration: none;
     padding: .2em 1em;
-    border: 1px solid #666;
+    /* border: 1px solid #666; */
     margin: .5em 0;
 }
 
 .card-action:hover {
-    background: #eaeaea;
-    color: #333;
+    background: #ac6a30;
+    color: white;
+}
+
+.card img {
+    height: 200px;
+
 }
 
 /* Section C */
@@ -426,24 +558,31 @@ p {
 }
 
 /* Section E */
+#section-e {
+    background-color: #926239;
+    color: #fff;
+}
+
 #section-e .box {
     padding: 2em;
     color: #fff;
     background: #fff;
 }
 
-#section-e .box:first-child {
-    background: #2690d4;
+#section-e a {
+    text-decoration: none;
+    color: #fff;
 }
 
-#section-e .box:nth-child(2) {
-    color: #333;
+#section-e a:hover {
+    color: #926239;
+    background-color: #fff;
 }
 
 /* Footer */
 #main-footer {
     padding: 2em;
-    background: #000;
+    background: #333;
     color: #fff;
     text-align: center;
 }
@@ -455,12 +594,12 @@ p {
 
 /* Nav Menu & Side Bar */
 .navbar {
-    background-color: #333;/*#3b5998;*/
+    background-color: #926239;/*#3b5998;*/
     overflow: hidden;
     height:63px;
     width: 100%;
     position: fixed;
-    opacity: .6;
+    /* opacity: .6; */
     top:0px;
 }
 
@@ -482,7 +621,7 @@ p {
 
 .navbar a:hover {
     background-color: #ddd;
-    color: #000;
+    color: #926239;    
 }
 
 .side-nav {
@@ -492,7 +631,7 @@ p {
     z-index:1;
     top:0;
     left:0;
-    background-color: #111;
+    background-color: #926239;
     /* opacity: 0.9; */
     overflow-x: hidden;
     padding-top: 60px;
@@ -519,8 +658,6 @@ p {
     margin-left: 50px;
 }
 
-
-
 .open {
     width: 250px !important;
 }
@@ -528,12 +665,22 @@ p {
 .close {
     width: 0px;
 }
-
 .contactus-icons {
     padding: 0px 5px;
     vertical-align: middle;
 }
 
+/* Transition for Hero Carousel */
+.slide-leave-active,
+.slide-enter-active {
+  transition: 1s;
+}
+.slide-enter {
+  transform: translate(100%, 0);
+}
+.slide-leave-to {
+  transform: translate(-100%, 0);
+}
 
 /* Media Queries */
 /* Small devices */
@@ -561,6 +708,13 @@ p {
   .navbar-nav {
         display:none;
     }
+    .prev,
+    .next {
+        display: none;
+    }
+    .show-all-ld {
+        display: block;
+    }
 }
 
 /* Desktop */
@@ -568,17 +722,14 @@ p {
     .grid {
         display: grid;
         grid-template-columns: 1fr repeat(2, minmax(auto, 25em)) 1fr;
-        border: 1px solid black;
     }
 
-    #showcase .bg-image {
-        background-position-y: -450px;
-        background-attachment: fixed;
+    #showcase .image {
+         top: -321px;
     }
 
     #section-a .content-text {
         columns: 1;
-        /* column-gap: 2em; */
     }
 
     #section-a .content-text p {
@@ -592,7 +743,7 @@ p {
     }
 
     .box, #main-footer div {
-        grid-column: span 2;
+        grid-column: span 4;
     }
 
     #section-b ul,
@@ -605,7 +756,7 @@ p {
         width: 31%;
     }
 
-     .open-slide {
+    .open-slide {
         display:none;
     }
 }
