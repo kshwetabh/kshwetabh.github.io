@@ -142,7 +142,7 @@
 </template>
 
 <script>
-import {db} from './firebase';
+// import {db} from './firebase';
 import VueGallery from 'vue-gallery';
 import 'vue-awesome/icons/facebook-f';
 import 'vue-awesome/icons/whatsapp';
@@ -270,12 +270,12 @@ export default {
   //   }
   // },
   mounted: function() {
-     let self = this;
-      db.ref('/letsfeedfaridabad').once('value').then(function(snapshot) {
-        console.log("letsfeedfaridabad --->", snapshot.val());
-        // self.appData = snapshot.val();
-        // return snapshot.val();
-      });
+    //  let self = this;
+    //   db.ref('/letsfeedfaridabad').once('value').then(function(snapshot) {
+    //     console.log("letsfeedfaridabad --->", snapshot.val());
+    //     // self.appData = snapshot.val();
+    //     // return snapshot.val();
+    //   });
       //for carousel
       this.startRotation();
   },
