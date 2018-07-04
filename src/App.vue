@@ -11,23 +11,23 @@
             </a>    
         </span> 
         <ul class="navbar-nav">
-            <li><a href="#" onclick="return smoothScrollTo('showcase');">Home</a></li>
-            <li><a href="#" onclick="smoothScrollTo('section-a');">Our Mission</a></li>
-            <li><a href="#" onclick="smoothScrollTo('section-b');">Events</a></li>
-            <li><a href="#" onclick="smoothScrollTo('section-c');">Get Involved</a></li>
-            <li><a href="#" onclick="smoothScrollTo('section-d');">Happy Moments</a></li>
-            <li><a href="#" onclick="smoothScrollTo('section-e');">Join US</a></li>
+            <li><a href="#" @click="smoothScrollTo('showcase');">Home</a></li>
+            <li><a href="#" @click="smoothScrollTo('section-a');">Our Mission</a></li>
+            <li><a href="#" @click="smoothScrollTo('section-b');">Events</a></li>
+            <li><a href="#" @click="smoothScrollTo('section-c');">Get Involved</a></li>
+            <li><a href="#" @click="smoothScrollTo('section-d');">Happy Moments</a></li>
+            <li><a href="#" @click="smoothScrollTo('section-e');">Join US</a></li>
             <!-- <li><a href="#section-e">About Us</a></li> -->
         </ul>
     </nav>
     <div class="side-nav close" v-bind:class="{open: isSlideMenuOpen}">
         <a href="#" class="btn-close" @click="closeSideMenu">&times;</a>
-        <a href="#" @click="closeSideMenu" onclick="smoothScrollTo('showcase');">Home</a>
-        <a href="#" @click="closeSideMenu" onclick="smoothScrollTo('section-a');">Our Mission</a>
-        <a href="#" @click="closeSideMenu" onclick="smoothScrollTo('section-b');">Events</a>
-        <a href="#" @click="closeSideMenu" onclick="smoothScrollTo('section-c');">Get Involved</a>
-        <a href="#" @click="closeSideMenu" onclick="smoothScrollTo('section-d');">Happy Moments</a>
-        <a href="#" @click="closeSideMenu" onclick="smoothScrollTo('section-e');">Join US</a>
+        <a href="#" @click="smoothScrollTo('showcase', true);">Home</a>
+        <a href="#" @click="smoothScrollTo('section-a', true);">Our Mission</a>
+        <a href="#" @click="smoothScrollTo('section-b', true);">Events</a>
+        <a href="#" @click="smoothScrollTo('section-c', true);">Get Involved</a>
+        <a href="#" @click="smoothScrollTo('section-d', true);">Happy Moments</a>
+        <a href="#" @click="smoothScrollTo('section-e', true);">Join US</a>
         <!-- <a href="#section-e" @click="closeSideMenu">About Us</a> -->
     </div>
 
@@ -306,6 +306,40 @@ export default {
     },
     showAllEvents: function() {
         //unimplemented
+    },
+    smoothScrollTo: function(toElem, isSideMenu) {
+        var element = document.documentElement,
+            start = element.scrollTop,
+            to = document.getElementById(toElem).offsetTop-40,
+            change = to - start,
+            currentTime = 0,
+            increment = 20, 
+            duration = duration || 600;
+        
+        if (isSideMenu) {
+            this.closeSideMenu();
+        }
+
+        //t = current time
+        //b = start value
+        //c = change in value
+        //d = duration
+        Math.easeInOutQuad = function (t, b, c, d) {
+            t /= d/2;
+            if (t < 1) return c/2*t*t + b;
+            t--;
+            return -c/2 * (t*(t-2) - 1) + b;
+        };
+
+        var animateScroll = function(){
+            currentTime += increment;
+            var val = Math.easeInOutQuad(currentTime, start, change, duration);
+            element.scrollTop = val;
+            if(currentTime < duration) {
+                setTimeout(animateScroll, increment);
+            }
+        };
+        animateScroll();
     }
   },
   computed: {
